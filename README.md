@@ -3,8 +3,8 @@
 
 ## Data
   - S&P 500 component stocks
-  - Time period for portfolio construction:
-  - Time period for back-testing:  
+  - Time period for portfolio construction: *2010-1-1 - 2014-12-31*
+  - Time period for back-testing: *2015-1-1 - 2022-12-31* 
 ## Portfolio Selection: Volatility Decile Portfolio Strategy
 - **What is it?**
   - When you divide the dataset into 10 equal parts, then each part is called as decile. 
@@ -37,30 +37,60 @@ $$ \bar{R} = \sum_{k=1}^n \frac{R_k}{n} $$
 > Where BV denotes the beginning market value of security 
 ## Trading Signal: Moving Average + Breakout + Bollinger Band
 - In Quantra course, the strategy involves moving averge and breakout. However, based on my previous trading experience, Bollinger Band could provide a good sense of price movement. Thus, I incorporate it into indicator pool.
-- **Moving Average**
+- **Moving Average (MA)**
   - **How to use it?**
     - If the price crosses beyond moving average, it is likely price goes further upward.
     - If the price crosses below moving average, it is likely price goes further downward.
   - **Limitation**
     - Moving averages work in a trending market. However, if the asset prices keep following a cyclic pattern without any trend, the moving average won't generate any signals.
     - Moving average of different time span could provide conflicting signals. 
-- **Breakout Strategy**
+- **Breakout Strategy (BO)**
   - **How to use it?**
     - If the price goes over the maximum value of a past period, it is likely price goes further upward.
   - **Why**
     - This jump is usually the result of an accumulation phase. When the price is moving sideways, it tends to accumulate a lot of positions. Once there are enough positions on one side (buying or selling), the pressure builds up. And it suddenly bursts, resulting in a jump in the price. You can say that the price breakout is due to a build-up of momentum.
     - Similarly, when the price is moving in the same direction for a given period, it tends to lose momentum after a while. There is an accumulation of positions on the other side, leading to a reversal and a breakout.
-- **Bollinger Band**
+- **Bollinger Band (BB)**
   - **What is it?**
     - Bollinger band is consisted of three lines: Moving avaerge + 2 STD(upper bound), Moving average, Moving avaerge - 2 STD(lower bound)   
   - **How to use it**
     - When the price is between the range of upper bound and moving average, it is likely to be an upward trend.
     - When the price is between the range of moving average and lower bound, it is likely to be an downward trend.
 - **Implementation**
-    - Quantra
+    - **Quantra: MA_signal & BO_signal**
       - If (price is above moving average) *AND* (price is greater than past period), then long the portfolio.
       - Otherwise, leave the market. 
-    - My Improvement
-      - If ((price is above moving average) *AND* (price is greater than past period) *OR* (price is between the range of upper BB band), then long the portfolio.
+    - **My Improvement #1: BB_signal**
+      - If (price is between the range of upper BB band), then long the portfolio.
+      - Otherwise, leave the market.    
+    - **My Improvement #2: MA_signal | BB_signal | BO signal**
+      - If (price is above moving average) *OR* (price is greater than past period) *OR* (price is between the range of upper BB band), then long the portfolio.
       - Otherwise, leave the market.
 ## Strategy Performance Metrics
+
+<table>
+  <tr>
+    <th>Strategy</th>
+    <th>Sharpe Ratio</th> 
+    <th>Cumulative Retrun</th>
+    <th>Max Drawdown</th>
+  </tr>
+  <tr>
+    <td>MA_signal & BO_signal</td>
+    <td>0.15</td> 
+    <td>1.09</td>
+    <td>-21.84%</td>
+  </tr>
+  <tr>
+    <td>BB_signal</td>
+    <td>0.96 </td> 
+    <td>2.90</td>
+    <td>-22.69%</td>
+  </tr>
+    <tr>
+    <td>MA_signal | BB_signal | BO signal</td>
+    <td>0.98 </td> 
+    <td>3.59 </td>
+    <td>-24.87%</td>
+  </tr>
+</table>
