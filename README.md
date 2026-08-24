@@ -1,6 +1,6 @@
 # Momentum Trading Strategy
 
-This repository contains a Jupyter notebook analyzing a volatility decile portfolio strategy for S&P 500 component stocks between 2010-01-01 and 2022-12-31. The strategy combines moving average, Bollinger Bands, and breakout signals to evaluate momentum-based trading ideas.
+This repository, creared by Levi, contains a Jupyter notebook analyzing a volatility decile portfolio strategy for S&P 500 component stocks between 2010-01-01 and 2022-12-31. The strategy combines moving average, Bollinger Bands, and breakout signals to evaluate momentum-based trading ideas.
 
 ## Strategy Performance
 
